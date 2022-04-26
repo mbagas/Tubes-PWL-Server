@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +18,8 @@ use App\Http\Controllers\ProdukController;
 */
 
 Route::resource('produk', ProdukController::class);
+Route::resource('role', RoleController::class);
+Route::resource('transaksi', TransaksiController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

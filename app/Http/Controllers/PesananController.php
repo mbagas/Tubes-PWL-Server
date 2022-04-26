@@ -70,6 +70,13 @@ class PesananController extends Controller
     public function update(Request $request, Pesanan $pesanan)
     {
         //
+        $pesanan->jumlah = $request['jumlah'];
+        $pesanan->save();
+
+        return response()->json([
+            'message' => 'Pesanan berhasil diubah',
+            'pesanan' => new PesananResource($pesanan),
+        ], 200);
     }
 
     /**
@@ -81,5 +88,6 @@ class PesananController extends Controller
     public function destroy(Pesanan $pesanan)
     {
         //
+        $pesanan->delete();
     }
 }

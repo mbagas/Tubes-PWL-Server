@@ -16,9 +16,9 @@ class TransaksiResource extends JsonResource
     {
         return [
             'id'    => $this->id,
-            'user_id'  => $this->user_id,
             'total_harga' => $this->total_harga,
-            'status' => $this->status,
+            'uang_bayar' => $this->uang_bayar,
+            'uang_kembali' => $this->uang_kembali,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
