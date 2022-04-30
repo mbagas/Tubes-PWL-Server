@@ -25,6 +25,9 @@ class ProdukController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
 
         $produk = Produk::create($request->validate([
             'nama_produk' => 'required',
@@ -51,7 +54,9 @@ class ProdukController extends Controller
 
     public function update(Request $request, Produk $produk)
     {
-
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
         $produk->update($request->validate([
             'nama_produk' => 'required',
             'harga' => 'required',
@@ -70,7 +75,9 @@ class ProdukController extends Controller
 
     public function destroy(Produk $produk)
     {
-
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
         $produk->delete();
     }
 }

@@ -12,6 +12,9 @@ class RoleController extends Controller
     public function index()
     {
         //
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
         $roles = RoleResource::collection(Role::all());
 
         return response()->json([
@@ -27,6 +30,9 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         //
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
         $role = Role::create($request->validate([
             'role' => 'required',
         ]));
@@ -40,6 +46,9 @@ class RoleController extends Controller
     public function show(Role $role)
     {
         //
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
         return response()->json([
             'role' => new RoleResource($role),
         ], 200);
@@ -54,6 +63,9 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         //
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
         $role->update($request->validate([
             'role' => 'required',
         ]));
@@ -69,6 +81,9 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         //
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
         $role->delete();
     }
 }

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,11 @@ use App\Http\Controllers\TransaksiController;
 */
 
 Route::resource('produk', ProdukController::class);
-Route::resource('role', RoleController::class);
+Route::post('user', [UserController::class, 'store']);
 Route::resource('transaksi', TransaksiController::class);
+Route::post('login', [UserController::class, 'login']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::resource('role', RoleController::class);
+    Route::post('/logout', [UserController::class, 'logout']);
 });

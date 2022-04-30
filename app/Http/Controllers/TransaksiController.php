@@ -62,8 +62,6 @@ class TransaksiController extends Controller
         $total = $harga->sum();
         $transaksi = Transaksi::with('pesanans')->find($transaksi->id);
         return response()->json([
-            'data' => $pesanans,
-            'harga' => $harga,
             'transaksi' => $transaksi,
         ], 200);
     }
@@ -98,10 +96,19 @@ class TransaksiController extends Controller
     public function update(Request $request, Transaksi $transaksi)
     {
         //
+        $transaksi->update($request->validate([
+            'total_harga' => 'required',
+            'uang_bayar' => 'required',
+            'uang_kembali' => 'required',
+        ]));
     }
 
     public function destroy(Transaksi $transaksi)
     {
         //
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+        $transaksi->delete();
     }
 }
