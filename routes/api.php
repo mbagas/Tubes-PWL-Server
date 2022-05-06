@@ -19,7 +19,7 @@ use App\Http\Controllers\UserController;
 */
 
 Route::resource('produk', ProdukController::class);
-Route::post('user', [UserController::class, 'store']);
+Route::resource('user', UserController::class);
 Route::resource('transaksi', TransaksiController::class);
 Route::post('login', [UserController::class, 'login']);
 
