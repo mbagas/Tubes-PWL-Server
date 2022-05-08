@@ -50,7 +50,7 @@ class TransaksiController extends Controller
                 'jumlah' => '2',
             ]
         ];
-        $pesanans = collect($data)->map(function ($item) use ($transaksi) {
+        $pesanans = collect($request->data)->map(function ($item) use ($transaksi) {
             $item['transaksi_id'] = $transaksi->id;
             return $item;
         });
@@ -70,16 +70,7 @@ class TransaksiController extends Controller
     public function show(Transaksi $transaksi)
     {
         //
-        $transaksi = Transaksi::find($transaksi->id);
-
-        $pesanan = $transaksi->pesanan;
-        $pesanan = $pesanan->map(function ($item) {
-            $produk = Produk::find($item['produk_id']);
-            $item['nama_produk'] = $produk->nama_produk;
-            $item['harga'] = $produk->harga;
-            $item['total_harga'] = $produk->harga * $item['jumlah'];
-            return $item;
-        });
+        $transaksi = Transaksi::where('id', $transaksi->id)->with('pesanans.produks')->first();
 
         return response()->json([
             'transaksi' => $transaksi,

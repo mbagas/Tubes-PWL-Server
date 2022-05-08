@@ -18,12 +18,15 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::resource('produk', ProdukController::class);
-Route::resource('user', UserController::class);
-Route::resource('transaksi', TransaksiController::class);
+
+
+
 Route::post('login', [UserController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::resource('transaksi', TransaksiController::class);
     Route::resource('role', RoleController::class);
+    Route::resource('produk', ProdukController::class);
+    Route::resource('user', UserController::class);
     Route::post('/logout', [UserController::class, 'logout']);
 });

@@ -13,6 +13,9 @@ class UserController extends Controller
     //
     public function index()
     {
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
         $users = User::with('roles')->get();
         return Response::json($users);
     }
@@ -25,9 +28,9 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // if (!auth()->user()->tokencan('admin')) {
-        //     abort(403, 'Unauthorized action.');
-        // }
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
@@ -41,10 +44,9 @@ class UserController extends Controller
             'role_id' => $request->role_id,
         ]);
 
-        $token = $user->createToken('kasirtoken')->plainTextToken;
+
         $respone = [
             'user' => $user,
-            'token' => $token,
         ];
 
         return Response::json($respone, 201);
