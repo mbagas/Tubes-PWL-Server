@@ -102,4 +102,16 @@ class TransaksiController extends Controller
         }
         $transaksi->delete();
     }
+
+    public function grafikTransaksi()
+    {
+        $grafikTransaksi = Transaksi::selectRaw('sum(total_harga) as total_harga,count(*) as jumlah,year(created_at) year, monthname(created_at) as bulan, count(*) as jumlah')
+            ->groupBy('year', 'bulan')
+            ->orderBy('bulan', 'asc')
+            ->get();
+
+        return response()->json([
+            'grafikTransaksi' => $grafikTransaksi,
+        ], 200);
+    }
 }

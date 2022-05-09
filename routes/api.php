@@ -25,6 +25,7 @@ Route::post('login', [UserController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('transaksi', TransaksiController::class);
+    Route::get('grafik/transaksi', [TransaksiController::class, 'grafikTransaksi']);
     Route::resource('role', RoleController::class);
     Route::resource('produk', ProdukController::class);
     Route::resource('user', UserController::class);
