@@ -11,12 +11,12 @@ class Pesanan extends Model
     protected $table = 'pesanans';
     protected $fillable = ['produk_id', 'jumlah', 'transaksi_id'];
 
-    public function produk()
+    public function produks()
     {
         return $this->belongsTo(Produk::class, 'produk_id');
     }
 
-    public function transaksi()
+    public function transaksis()
     {
         return $this->belongsTo(Transaksi::class, 'transaksi_id');
     }

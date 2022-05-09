@@ -4,82 +4,80 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use App\Http\Resources\ProdukResource;
 
 class ProdukController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+
+        $produks = ProdukResource::collection(Produk::all());
+
+        return response()->json([
+            'produks' => $produks,
+        ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $produk = Produk::create($request->validate([
+            'nama_produk' => 'required',
+            'harga' => 'required',
+        ]));
+        return response()->json([
+            'message' => 'Produk berhasil ditambahkan',
+            'produk' => new ProdukResource($produk),
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Produk  $produk
-     * @return \Illuminate\Http\Response
-     */
     public function show(Produk $produk)
     {
-        //
+
+        return response()->json([
+            'produk' => new ProdukResource($produk),
+        ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Produk  $produk
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Produk $produk)
     {
-        //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Produk  $produk
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Produk $produk)
     {
-        //
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+        $produk->update($request->validate([
+            'nama_produk' => 'required',
+            'harga' => 'required',
+        ]));
+
+        $produk->nama_produk = $request['nama_produk'];
+        $produk->harga = $request['harga'];
+        $produk->save();
+
+        return response()->json([
+            'message' => 'Produk berhasil diubah',
+            'produk' => new ProdukResource($produk),
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Produk  $produk
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Produk $produk)
     {
-        //
+        if (!auth()->user()->tokencan('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+        $produk->delete();
     }
 }

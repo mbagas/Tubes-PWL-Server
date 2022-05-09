@@ -11,7 +11,7 @@ class Produk extends Model
     protected $table = 'produks';
     protected $fillable = ['nama_produk', 'harga'];
 
-    public function pesanan()
+    public function pesanans()
     {
         return $this->hasMany(Pesanan::class, 'produk_id');
     }
