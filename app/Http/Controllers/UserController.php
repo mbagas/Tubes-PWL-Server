@@ -62,7 +62,7 @@ class UserController extends Controller
         $user = User::where('email', $data['email'])->first();
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
-            return Response::json([
+            return response()->json([
                 'message' => 'Wrong credentials'
             ], 401);
         }
