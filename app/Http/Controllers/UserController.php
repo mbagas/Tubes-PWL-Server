@@ -17,13 +17,13 @@ class UserController extends Controller
             abort(403, 'Unauthorized action.');
         }
         $users = User::with('roles')->get();
-        return Response::json($users);
+        return response()->json($users);
     }
 
     public function show($id)
     {
         $user = User::find($id);
-        return Response::json($user);
+        return response()->json($user);
     }
 
     public function store(Request $request)
@@ -49,7 +49,7 @@ class UserController extends Controller
             'user' => $user,
         ];
 
-        return Response::json($respone, 201);
+        return response()->json($respone, 201);
     }
 
     public function login(Request $request)
@@ -79,7 +79,7 @@ class UserController extends Controller
             'token' => $token,
         ];
 
-        // return Response::json($response, 200);
+        // return response()->json($response, 200);
         return response()->json($response, 200);
     }
 
@@ -109,7 +109,7 @@ class UserController extends Controller
             'role_id' => $request->role_id,
         ]);
 
-        return Response::json([
+        return response()->json([
             'message' => 'User berhasil diubah',
             'user' => $user,
         ], 200);
@@ -123,7 +123,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return Response::json([
+        return response()->json([
             'message' => 'User berhasil dihapus',
             'user' => $user,
         ], 200);
