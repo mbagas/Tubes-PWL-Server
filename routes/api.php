@@ -21,7 +21,7 @@ use App\Http\Controllers\UserController;
 
 
 
-Route::post('login', [UserController::class, 'login']);
+Route::post('login', [UserController::class, 'login'])->name('login');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('transaksi', TransaksiController::class);
