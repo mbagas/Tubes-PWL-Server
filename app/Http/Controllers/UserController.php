@@ -79,7 +79,8 @@ class UserController extends Controller
             'token' => $token,
         ];
 
-        return Response::json($response, 200);
+        // return Response::json($response, 200);
+        return response()->json($response, 200);
     }
 
     public function logout(Request $request)
