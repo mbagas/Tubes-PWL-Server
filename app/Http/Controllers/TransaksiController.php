@@ -105,7 +105,7 @@ class TransaksiController extends Controller
 
     public function grafikTransaksi()
     {
-        $grafikTransaksi = Transaksi::selectRaw('sum(total_harga) as total_harga,count(*) as jumlah,year(created_at) year, monthname(created_at) as bulan, count(*) as jumlah')
+        $grafikTransaksi = Transaksi::selectRaw('sum(total_harga) as total_harga,count(*) as jumlah,year(created_at) as year, monthname(created_at) as bulan, count(*) as jumlah')
             ->groupBy('year', 'bulan')
             ->orderBy('bulan', 'asc')
             ->get();
